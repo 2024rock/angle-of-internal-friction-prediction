@@ -118,7 +118,7 @@ st.write(input_df)
 
 # モデルの読み込み
 @st.cache_resource
-def load_trained_model(model_path='model_tf2.h5'):
+def load_trained_model(model_path='model.h5'):
     if not os.path.exists(model_path):
         st.error(f"モデルファイル '{model_path}' が存在しません。モデルが正しく保存されていることを確認してください。")
         return None
