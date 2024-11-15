@@ -22,27 +22,80 @@ st.markdown("""
 """)
 
 # サイドバーでの入力
+
+#def user_input_features():
+    #st.sidebar.header("入力パラメータ")
+    #col1 = st.sidebar.columns(3)
+    #col2 = st.sidebar.columns(3)
+    #col3 = st.sidebar.columns(3)
+    #with col1:
+        #deep = st.number_input("深さ（deep）", min_value=0.0, step=0.1, format="%.2f")
+        #void_ratio = st.number_input("間隙率（void ratio）", min_value=0.0, step=0.01, format="%.3f")
+        #water_content = st.number_input("含水比（water content）", min_value=0.0, step=0.01, format="%.3f")
+
+    #with col2:
+        #X = st.number_input("X", min_value=-500.0, step=0.1, format="%.2f")
+        #Y = st.number_input("Y", min_value=-500.0, step=0.1, format="%.2f")
+        #UU = st.selectbox("UU", options=[0, 1])  # 0か1のみ選択可能
+
+    #with col3:
+        #CU = st.selectbox("CU", options=[0, 1])  # 0か1のみ選択可能
+        #CUBar = st.selectbox("CUBar", options=[0, 1])  # 0か1のみ選択可能
+        #CD = st.selectbox("CD", options=[0, 1])  # 0か1のみ選択可能
+
+# CSSでサイドバーのスタイルを調整
+st.markdown(
+    """
+    <style>
+    .sidebar .sidebar-content {
+        padding: 10px;
+    }
+    .stNumberInput, .stSelectbox {
+        padding-right: 2px;
+    }
+    .stNumberInput label, .stSelectbox label {
+        white-space: nowrap;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+# 3列のサイドバー設定
 def user_input_features():
     st.sidebar.header("入力パラメータ")
-    col1, col2, col3 = st.sidebar.columns(3)
 
-    with col1:
-        deep = st.number_input("深さ（deep）", min_value=0.0, step=0.1, format="%.2f")
+    # 各列に直接アクセス
+    st.sidebar.write("一般")
+    #col1 = st.sidebar.columns(3)
+    col1 = st.sidebar.columns([1, 1, 1])  # 幅を固定するため、各列の割合を指定
+    with col1[0]:
+        depth = st.number_input("深さ（depth）", min_value=0.0, step=0.1, format="%.2f")
+    with col1[1]:
         void_ratio = st.number_input("間隙率（void ratio）", min_value=0.0, step=0.01, format="%.3f")
-        water_content = st.number_input("含水比（water content）", min_value=0.0, step=0.01, format="%.3f")
+    with col1[2]:
+        water_content = st.number_input("自然含水比（water content）", min_value=0.0, step=0.01, format="%.3f")
 
-    with col2:
+    st.sidebar.write("座標（土質により決定）")
+    col2 = st.sidebar.columns(2)
+    with col2[0]:
         X = st.number_input("X", min_value=-500.0, step=0.1, format="%.2f")
+    with col2[1]:
         Y = st.number_input("Y", min_value=-500.0, step=0.1, format="%.2f")
-        UU = st.selectbox("UU", options=[0, 1])  # 0か1のみ選択可能
 
-    with col3:
+    st.sidebar.write("三軸圧縮試験")
+    col3 = st.sidebar.columns(4)
+    with col3[0]:
+        UU = st.selectbox("UU", options=[0, 1])  # 0か1のみ選択可能
+    with col3[1]:
         CU = st.selectbox("CU", options=[0, 1])  # 0か1のみ選択可能
+    with col3[2]:
         CUBar = st.selectbox("CUBar", options=[0, 1])  # 0か1のみ選択可能
+    with col3[3]:
         CD = st.selectbox("CD", options=[0, 1])  # 0か1のみ選択可能
 
     data = {
-        'deep': deep,
+        'depth': depth,
         'void ratio': void_ratio,
         'water content': water_content,
         'X': X,
